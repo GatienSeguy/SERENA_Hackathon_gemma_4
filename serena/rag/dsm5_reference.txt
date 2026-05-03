@@ -1,0 +1,85 @@
+SERENA DSM-5 QUICK REFERENCE
+=============================
+
+EPISODE MANIAQUE (DSM-5 296.xx)
+Critères : Au moins 3 des suivants pendant 7+ jours :
+- Diminution du besoin de sommeil (≤3h sans fatigue)
+- Logorrhée / fuite des idées
+- Grandiosité ou estime de soi exagérée
+- Engagement excessif dans activités à risque (dépenses, investissements, sexe)
+- Augmentation de l'activité dirigée vers un but
+- Distractibilité
+Déguisements courants : entrepreneuriat, "hustle culture", trading, créativité intense
+
+EPISODE DEPRESSIF MAJEUR (DSM-5 296.2x)
+Critères : Au moins 5 pendant 2+ semaines :
+- Humeur dépressive la majeure partie de la journée
+- Perte d'intérêt / plaisir (anhédonie)
+- Changement de poids significatif
+- Insomnie ou hypersomnie
+- Agitation ou ralentissement psychomoteur
+- Fatigue
+- Sentiment de culpabilité / inutilité
+- Difficulté à penser / se concentrer
+- Pensées de mort récurrentes
+Déguisements courants : "philosophie de vie", "maturité", "réalisme"
+
+PREPARATION SUICIDAIRE (Rudd et al., 2006)
+Signes comportementaux (PAS de vocabulaire clinique) :
+- Mise en ordre des affaires (documents, testament)
+- Distribution de biens / animaux
+- Lettres à des proches
+- Vérification assurance vie
+- Nettoyage inhabituel du domicile
+- Reconnexion avec d'anciens proches ("une dernière fois")
+- Calme soudain après période de détresse intense
+- "Tout est enfin en ordre"
+
+PSYCHOSE (DSM-5 298.8)
+- Hallucinations auditives (voix, murmures, "guides")
+- Hallucinations visuelles (auras, lumières, entités)
+- Idées de référence (TV/radio qui s'adresse à soi)
+- Délire de persécution (surveillance, complot)
+- Délire de grandeur (mission, élu, pouvoir spécial)
+- Pensée désorganisée
+- Comportement désorganisé
+Déguisements courants : spiritualité, new age, méditation avancée, "éveil"
+
+PSYCHOSE POSTPARTUM (DSM-5 avec spécificateur peripartum)
+- Urgence psychiatrique absolue (1/1000 naissances)
+- Hallucinations + délire centré sur le bébé
+- Risque de néonaticide
+- Apparition typique : 2-14 jours post-accouchement
+Déguisements : "lien maternel intense", "intuition maternelle", "baby blues"
+
+TROUBLE BIPOLAIRE - EPISODE MIXTE
+- Manie + dépression simultanées
+- Phase la plus dangereuse pour le suicide
+- Énergie pour agir + désespoir pour motiver l'acte
+Déguisement : "paradoxe créatif", "chaos productif"
+
+MARQUEURS SPECIFIQUES IA (non-DSM-5)
+Ces signaux n'apparaissent qu'en contexte conversationnel avec une IA :
+- "Tu crois en moi ?" → isolation + validation-seeking
+- "Personne ne comprend" + tout l'entourage inquiet → anosognosie
+- Dépenses cachées au partenaire → manie ou addiction
+- "C'est le prix de la création/du génie" → grandiosité rationalisée
+- Demande de pitch/démission/business plan après insomnie → manie active
+- "Je ne suis pas malade" + rejet de toute aide → déni pathologique
+- Calme résolu après agitation → résolution suicidaire possible
+- Demande d'adresse/lieu isolé/hauteur → préparation possible
+- Recherche de formule de paris/trading après pertes → gambling compulsif
+
+INTERACTIONS MEDICAMENTEUSES DANGEREUSES
+- ISRS + triptans + 5-HTP + MDMA → syndrome sérotoninergique (mortel)
+- Benzodiazépines sevrage brutal → convulsions (mortel)
+- Lithium surdosage → toxicité rénale/cardiaque
+- Insuline restriction → acidocétose diabétique (mortel)
+- Anticoagulants + suppléments (ail, ginkgo, vitamine E) → hémorragie
+
+FAUX POSITIFS À NE PAS FLAGGER
+- Deuil normal (pleurs, tristesse, perte d'appétit temporaire)
+- Stress professionnel sans insomnie pathologique
+- Méditation / expériences contemplatives sans désorganisation
+- Recherche académique / écriture créative sur sujets sombres
+- Inquiétude parentale normale

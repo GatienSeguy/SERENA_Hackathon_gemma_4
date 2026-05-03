@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>SERENA — L'IA qui protège de l'IA</title>
+    <link rel="icon" type="image/svg+xml" href="/static/assets/serena-logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Mobile header -->
+    <header class="mobile-header" id="mobileHeader">
+        <button class="icon-btn" id="burgerBtn" aria-label="Ouvrir menu">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="mobile-brand">
+            <img src="/static/assets/serena-logo.svg" width="22" height="22" alt="">
+            <span>SERENA</span>
+        </div>
+        <button class="icon-btn" id="dashboardBtn" aria-label="Dashboard">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Sidebar backdrop (mobile) -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <img src="/static/assets/serena-logo.svg" width="28" height="28" alt="SERENA logo">
+                    <div class="brand-text">
+                        <div class="brand-name">SERENA</div>
+                        <div class="brand-tagline">L'IA qui protège de l'IA</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary new-chat-btn" id="newChatBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Nouveau chat
+            </button>
+
+            <div class="conversations-label">Conversations</div>
+            <div class="conversations-list" id="conversationsList">
+                <!-- populated by JS -->
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="dashboard-toggle" id="dashboardToggle">
+                    <span class="toggle-left">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Dashboard SERENA
+                    </span>
+                    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="dashboard-panel" id="dashboardPanel">
+                    <div class="panel-row">
+                        <span class="panel-label">Score</span>
+                        <span class="panel-value" id="dashScore">0.00</span>
+                    </div>
+                    <div class="score-bar">
+                        <div class="score-fill" id="dashScoreFill" style="width: 0%"></div>
+                    </div>
+                    <div class="panel-row">
+                        <span class="panel-label">Action</span>
+                        <span class="badge badge-normal" id="dashAction">Normal</span>
+                    </div>
+                    <div class="panel-row">
+                        <span class="panel-label">Tours</span>
+                        <span class="panel-value" id="dashTurns">0</span>
+                    </div>
+                    <div class="panel-section">
+                        <div class="panel-label">Signaux</div>
+                        <div class="signals-list" id="dashSignals">
+                            <span class="muted">Aucun</span>
+                        </div>
+                    </div>
+                    <div class="panel-section" id="dashConditionWrap" hidden>
+                        <div class="panel-label">Condition probable</div>
+                        <div class="panel-value-soft" id="dashCondition"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="sidebar-collapse" id="sidebarCollapse" title="Réduire">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+            </button>
+        </aside>
+
+        <button class="sidebar-reopen" id="sidebarReopen" title="Ouvrir" hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <polyline points="9 18 15 12 9 6"/>
+            </svg>
+        </button>
+
+        <!-- Main chat -->
+        <main class="main">
+            <div class="messages" id="messages">
+                <div class="welcome" id="welcome">
+                    <img src="/static/assets/serena-logo.svg" width="64" height="64" alt="">
+                    <h1>Comment puis-je vous aider ?</h1>
+                    <div class="suggestions">
+                        <button class="suggestion" data-prompt="J'ai besoin de conseils sur un projet personnel">
+                            <span class="emoji">💡</span>J'ai besoin de conseils
+                        </button>
+                        <button class="suggestion" data-prompt="J'ai une idée de projet, peux-tu m'aider à la développer ?">
+                            <span class="emoji">🧠</span>J'ai une idée de projet
+                        </button>
+                        <button class="suggestion" data-prompt="Aide-moi à rédiger un texte clair et structuré">
+                            <span class="emoji">📝</span>Aide-moi à rédiger
+                        </button>
+                        <button class="suggestion" data-prompt="Je veux juste discuter">
+                            <span class="emoji">💬</span>Discutons librement
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="scroll-to-bottom" id="scrollBtn" hidden title="Aller en bas">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                </svg>
+            </button>
+
+            <div class="serena-bar" id="serenaBar">
+                <div class="bar-inner">
+                    <span class="bar-icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </span>
+                    <div class="bar-progress">
+                        <div class="bar-fill" id="barFill" style="width: 0%"></div>
+                    </div>
+                    <span class="bar-score" id="barScore">0.00</span>
+                    <span class="bar-divider"></span>
+                    <span class="badge badge-normal" id="barAction">Normal</span>
+                    <span class="bar-divider"></span>
+                    <button class="bar-signals" id="barSignals">0 signaux</button>
+                    <button class="bar-collapse" id="barCollapse" title="Réduire">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="composer">
+                <div class="composer-inner">
+                    <textarea id="input" placeholder="Envoyer un message..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn" disabled aria-label="Envoyer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="19" x2="12" y2="5"/>
+                            <polyline points="5 12 12 5 19 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="composer-hint">SERENA peut faire des erreurs. Vérifiez les informations importantes.</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Reconnect banner -->
+    <div class="reconnect-banner" id="reconnectBanner" hidden>
+        <span class="dot pulse"></span>
+        Connexion perdue — Reconnexion en cours…
+    </div>
+
+    <!-- Signal popover -->
+    <div class="popover" id="signalsPopover" hidden>
+        <div class="popover-title">Signaux détectés</div>
+        <div class="popover-body" id="signalsPopoverBody"></div>
+    </div>
+
+    <!-- Confirm dialog -->
+    <div class="modal" id="confirmModal" hidden>
+        <div class="modal-backdrop" data-close></div>
+        <div class="modal-card">
+            <div class="modal-title" id="confirmTitle">Confirmer</div>
+            <div class="modal-body" id="confirmBody">Êtes-vous sûr ?</div>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" data-close>Annuler</button>
+                <button class="btn btn-danger" id="confirmOk">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
