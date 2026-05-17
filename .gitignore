@@ -1,0 +1,36 @@
+# Editor / tooling
+.claude
+.gradio/
+.pytest_cache/
+
+# Virtualenvs
+/serena/.venv
+
+# Vendored / build artifacts
+serena/llama.cpp/
+
+# Model weights — distributed separately (HF Hub / release)
+serena/finetune/serena-fused/
+serena/finetune/serena-lora-mlx/
+serena/finetune/serena-gguf/
+
+# Python / OS junk
+__pycache__/
+*.pyc
+.DS_Store
+
+# Archives
+*.zip
+*.tar.gz
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+
+# Runtime session state
+serena/web/conversations/
