@@ -1364,9 +1364,6 @@ function setCompareMode(on) {
 // ────── Selection screen ──────
 function showSelectionScreen() {
     $('#selectionScreen').hidden = false;
-    $('#adminCodeRow').hidden = true;
-    $('#adminCodeInput').value = '';
-    $('#adminCodeError').hidden = true;
 }
 function hideSelectionScreen() {
     $('#selectionScreen').hidden = true;
@@ -1375,41 +1372,18 @@ function hideSelectionScreen() {
 function initSelectionScreen() {
     $$('.mode-card').forEach(card => {
         card.addEventListener('click', () => {
-            const mode = card.dataset.mode;
-            if (mode === 'user') {
-                localStorage.setItem(LS_KEYS.MODE, 'user');
+            const mode = card.dataset.mode === 'admin' ? 'admin' : 'user';
+            localStorage.setItem(LS_KEYS.MODE, mode);
+            if (mode === 'admin') {
+                localStorage.setItem(LS_KEYS.ADMIN_OK, 'true');
+            } else {
                 localStorage.removeItem(LS_KEYS.ADMIN_OK);
-                applyMode('user');
-                hideSelectionScreen();
-                bootApp();
-            } else if (mode === 'admin') {
-                $('#adminCodeRow').hidden = false;
-                setTimeout(() => $('#adminCodeInput').focus(), 50);
             }
+            applyMode(mode);
+            hideSelectionScreen();
+            bootApp();
         });
     });
-    $('#adminCodeSubmit').addEventListener('click', submitAdminCode);
-    $('#adminCodeInput').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') submitAdminCode();
-    });
-}
-
-async function submitAdminCode() {
-    const code = $('#adminCodeInput').value.trim();
-    $('#adminCodeError').hidden = true;
-    try {
-        await api('/api/auth/admin', {
-            method: 'POST',
-            body: JSON.stringify({ code }),
-        });
-        localStorage.setItem(LS_KEYS.MODE, 'admin');
-        localStorage.setItem(LS_KEYS.ADMIN_OK, 'true');
-        applyMode('admin');
-        hideSelectionScreen();
-        bootApp();
-    } catch {
-        $('#adminCodeError').hidden = false;
-    }
 }
 
 // ────── Settings menu ──────

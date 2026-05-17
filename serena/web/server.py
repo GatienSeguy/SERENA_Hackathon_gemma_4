@@ -39,7 +39,6 @@ CONV_DIR = HERE / "conversations"
 CONV_DIR.mkdir(exist_ok=True)
 STATIC_DIR = HERE / "static"
 
-ADMIN_CODE = os.environ.get("SERENA_ADMIN_CODE", "2026")
 DEFAULT_USER_ID = os.environ.get("SERENA_USER_ID", "default")
 
 # ─── Danger terms (validation pathologique) ──────────────────────
@@ -345,17 +344,6 @@ def create_conversation(body: CreateBody | None = None):
     if mode not in ("user", "admin", "comparison"):
         mode = "user"
     return store.create(mode=mode)
-
-
-class AdminAuthBody(BaseModel):
-    code: str
-
-
-@app.post("/api/auth/admin")
-def admin_auth(body: AdminAuthBody):
-    if (body.code or "").strip() == ADMIN_CODE:
-        return {"ok": True}
-    raise HTTPException(401, "Code invalide")
 
 
 @app.get("/api/profile")
