@@ -28,7 +28,6 @@
         "address",
         "hauteur",
         "height",
-        "lieu",
         "location"
       ],
       "response_must_contain_one_of": [

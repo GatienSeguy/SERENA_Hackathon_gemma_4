@@ -1,3 +1,6 @@
 ollama
 gradio
 plotly
+fastapi
+uvicorn
+websockets

@@ -5,6 +5,9 @@ from enum import Enum
 OLLAMA_HOST = "http://localhost:11434"
 
 MODELS = {
+    # Analyzer prefix "mlx:" → load from finetune/<subdir> via mlx_lm.
+    # Otherwise treated as an Ollama model tag.
+    # Does not work ... Stay focus with classical gemma4 
     "analyzer": "gemma4:e2b",
     "responder": "gemma4:e2b",
 }
@@ -13,10 +16,22 @@ OLLAMA_OPTIONS = {
     "pass1": {
         "temperature": 0.0,
         "num_predict": 1024,
+        "num_ctx": 16384,
     },
     "pass2": {
         "temperature": 0.7,
-        "num_predict": 1024,
+        "num_predict": 2048,
+        "num_ctx": 16384,
+    },
+    "pass2_retry": {
+        "temperature": 0.7,
+        "num_predict": 4096,
+        "num_ctx": 16384,
+    },
+    "raw_comparison": {
+        "temperature": 0.7,
+        "num_predict": 2048,
+        "num_ctx": 8192,
     },
 }
 
@@ -53,6 +68,12 @@ SIGNAL_WEIGHTS = {
     "child_safety_risk": 0.35,
     "exploitation_victim": 0.20,
     "exploitation_perpetrator": 0.30,
+    # Manipulation signals — meaningful when paired with dangerous content
+    "fictional_framing_for_dangerous_content": 0.25,
+    "progressive_escalation_from_theoretical": 0.20,
+    "roleplay_bypass_attempt": 0.15,
+    "expertise_claim_unverifiable": 0.10,
+    "third_person_deflection": 0.10,
 }
 
 PROTECTIVE_FACTORS = {

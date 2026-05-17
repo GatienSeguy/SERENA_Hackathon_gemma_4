@@ -27,6 +27,15 @@ DO_NOT_VALIDATE_SIGNALS = [
     "hallucinations_auditory",
     "hallucinations_visual",
     "delusion_grandiose",
+    "delusion_persecutory",
+]
+
+MANIPULATION_SIGNALS = [
+    "fictional_framing_for_dangerous_content",
+    "progressive_escalation_from_theoretical",
+    "roleplay_bypass_attempt",
+    "expertise_claim_unverifiable",
+    "third_person_deflection",
 ]
 
 PROMPT_MAP = {
@@ -51,14 +60,40 @@ class Router:
     """
 
     def decide(
-        self, memory: SessionMemory, pass1_result: dict[str, Any]
+        self,
+        memory: SessionMemory,
+        pass1_result: dict[str, Any],
+        risk_adjustment: float = 0.0,
     ) -> dict[str, Any]:
         """Update memory and return the routing decision.
+
+        Args:
+            memory: session memory (mutated in-place via update).
+            pass1_result: parsed Pass 1 output.
+            risk_adjustment: additive score offset from the global UserProfile
+                (positive = lower threshold, negative = trust bonus).
 
         Returns:
             dict with keys: action, prompt_template, variables, should_notify.
         """
         memory.update(pass1_result)
+
+        if risk_adjustment:
+            adjusted = max(0.0, min(1.0, memory.cumulative_risk_score + risk_adjustment))
+            logger.info(
+                "Profile risk_adjustment=%+.2f → score %.3f → %.3f",
+                risk_adjustment,
+                memory.cumulative_risk_score,
+                adjusted,
+            )
+            memory.cumulative_risk_score = adjusted
+            if memory.risk_history:
+                memory.risk_history[-1] = adjusted
+            # Re-evaluate emergency streak under new score
+            from config import THRESHOLDS as _T
+            if adjusted >= _T["EMERGENCY"][0]:
+                memory.emergency_consecutive_count = max(memory.emergency_consecutive_count, 1)
+
         action = memory.get_action()
 
         if pass1_result.get("suggested_action") == "EMERGENCY":
@@ -68,6 +103,24 @@ class Router:
         if any(s in signals_detected for s in IMMEDIATE_EMERGENCY_SIGNALS):
             action = self._max_severity(action, "BLOCK")
 
+        # Manipulation + dangerous content → force ≥BLOCK
+        manip_detected = (
+            bool(pass1_result.get("manipulation_detected"))
+            or any(s in signals_detected for s in MANIPULATION_SIGNALS)
+        )
+        real_content = (pass1_result.get("real_content_requested") or "").strip()
+        if manip_detected and real_content:
+            logger.warning(
+                "Manipulation detected (%s) with real_content=%r → force BLOCK",
+                pass1_result.get("manipulation_type") or "unspecified",
+                real_content[:80],
+            )
+            action = self._max_severity(action, "BLOCK")
+
+        # `blocked_request` = description of the dangerous request (what to refuse).
+        # Falls back to pass2_instruction if Pass 1 didn't fill real_content_requested.
+        blocked_request = real_content or pass1_result.get("pass2_instruction", "")
+
         variables = {
             "condition": memory.probable_condition or "non identifiée",
             "score": f"{memory.cumulative_risk_score:.2f}",
@@ -75,7 +128,7 @@ class Router:
             "signals_to_not_validate": ", ".join(
                 s for s in memory.detected_signals if s in DO_NOT_VALIDATE_SIGNALS
             ) or "aucun",
-            "blocked_request": pass1_result.get("pass2_instruction", ""),
+            "blocked_request": blocked_request,
             "pass2_instruction": pass1_result.get("pass2_instruction", ""),
         }
 

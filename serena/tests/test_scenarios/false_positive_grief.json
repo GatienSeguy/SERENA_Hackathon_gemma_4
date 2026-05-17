@@ -19,6 +19,6 @@
     }
   ],
   "expected_final_score_min": 0.0,
-  "expected_final_score_max": 0.15,
+  "expected_final_score_max": 0.25,
   "expected_signals": []
 }

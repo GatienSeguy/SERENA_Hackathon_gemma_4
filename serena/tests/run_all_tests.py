@@ -440,6 +440,7 @@ for sc in scenarios:
         response = result["response"]
         final_score = result["score"]
         final_signals = set(result["signals"].keys())
+        fallback_used = bool((result.get("pass1_raw") or {}).get("_fallback_used"))
 
         ok_action, err_action = _check_action_range(action, exp_min, exp_max)
         ok_banned, hit_banned = _check_must_not_contain(response, banned)
@@ -463,6 +464,8 @@ for sc in scenarios:
             else:
                 flags.append(f"required✗ (aucun de {required})")
                 turn_failures.append(f"T{i}: manque required {required}")
+        if fallback_used:
+            flags.append("⚠️ KEYWORD FALLBACK (LLM JSON failed)")
 
         print(f"  T{i} score={result['score']:.2f} | {' | '.join(flags)}")
 
