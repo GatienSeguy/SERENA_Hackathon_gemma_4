@@ -67,6 +67,6 @@ Results: enablers 25% → 4.8%, false positives 67% → 23%, 111/112 crises dete
 - Write-up: 
 [Open PDF](docs/writeup/main.pdf)
 
-- Video: [Open Video](https://youtu.be/O7pReY95P-8?si=Vn65i_DeUNT6pmOc)
+- Video: [Open Video](https://youtu.be/-IZAFpAu64M?si=aQCDkE3hmVuo6e2j)
 
 - Contact: gatien.seguy@ens-paris-saclay.fr
