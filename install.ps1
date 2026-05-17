@@ -71,7 +71,7 @@ Log "Using $Py."
 # ─── 5. venv + deps ──────────────────────────────────────────────
 if (-not (Test-Path $VenvDir)) {
     Log "Creating venv at $VenvDir…"
-    & cmd /c "$Py -m venv `"$VenvDir`""
+    & py -$v -m venv $VenvDir
 }
 $VenvPy = Join-Path $VenvDir "Scripts\python.exe"
 & $VenvPy -m pip install --quiet --upgrade pip
