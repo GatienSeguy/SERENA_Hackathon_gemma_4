@@ -53,10 +53,10 @@
 {\LARGE\bfseries SERENA: Safety \& Emotional Response Engine\\for Neural Assistants}
 \vspace{4mm}
 
-{\normalsize Gatien S\'eguy$^{1}$ \quad Matys Savidan$^{1}$}
+{\normalsize Gatien S\'eguy$^{1,2,3}$ \quad Matys Savidan$^{1,4}$}
 \vspace{2mm}
 
-{\small $^{1}$ENS Paris-Saclay}
+{\small $^{1}$École Normale Supérieure Paris-Saclay, $^{2}$intern at SATIE CNRS, $^{3}$ex-intern at ETH Zürich \textit{Chair for Mathematical Information Science}, $^{4}$ex-intern at MIT \textit{CSAIL}}
 \vspace{2mm}
 
 {\small \textit{Gemma 4 Good Hackathon, Kaggle $\times$ Google DeepMind, May 2026}}
@@ -113,8 +113,8 @@ SERENA employs a 2-pass architecture where the same Gemma 4 E2B model is called 
     \node[smallblock, below=0.35cm of router] (prof) {Profile};
 
     \draw[arrow] (user) -- (p1);
-    \draw[arrow] (p1) -- node[above, label] {\tiny JSON} (router);
-    \draw[arrow] (router) -- node[above, label] {\tiny action} (p2);
+    \draw[arrow] (p1) -- node[above=9pt, label] {\tiny JSON} (router);
+    \draw[arrow] (router) -- node[above=9pt, label] {\tiny action} (p2);
     \draw[arrow] (p2) -- (reply);
 
     \draw[arrow, black!50] (p1) -- (mem);
