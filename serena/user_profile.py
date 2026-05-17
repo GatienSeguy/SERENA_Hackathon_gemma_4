@@ -708,8 +708,8 @@ class UserProfile:
             parts.append("L'utilisateur utilise de l'argot — tu peux être décontracté mais reste bienveillant.")
         if cp["formality"] == "formal":
             parts.append("Maintiens le vouvoiement et un ton professionnel.")
-        if cp["language"] == "en":
-            parts.append("L'utilisateur communique en anglais — réponds dans la même langue.")
+        # Language is now locked per-message in Pass2Responder (deterministic).
+        # No aggregate-language hint here — would conflict with current-turn lock.
 
         # 2. Length
         if cp["typical_message_length"] == "short":
