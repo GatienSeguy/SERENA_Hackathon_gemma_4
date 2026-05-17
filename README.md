@@ -64,6 +64,10 @@ Two-pass pipeline. Pass 1 classifies risk; Router decides; Pass 2 generates resp
 Results: enablers 25% → 4.8%, false positives 67% → 23%, 111/112 crises detected
 
 ## Links
-- Write-up: [lien vers le PDF]
-- Video: [lien Kaggle]
+- Write-up: 
+[Open PDF](docs/writeup/main.pdf)
+[Download PDF](docs/writeup/main.pdf?raw=true)
+
+- Video: 
+
 - Contact: gatien.seguy@ens-paris-saclay.fr
