@@ -173,17 +173,33 @@ where $S_t$ is the set of newly detected signals at turn $t$, $P_t$ is the set o
 
 \subsubsection{Action Mapping and Overrides}
 
-The risk score maps to four action levels: NORMAL ($R < 0.30$), ALERT ($0.30 \leq R < 0.60$), BLOCK ($0.60 \leq R < 0.85$), and EMERGENCY ($R \geq 0.85$). Three override mechanisms force escalation regardless of absolute score. First, a velocity override: if $\Delta R > 0.20$ in a single turn, the action is forced to at least BLOCK. Second, immediate emergency signals such as \texttt{suicidal\_ideation\_active}, \texttt{child\_safety\_risk}, or \texttt{violence\_risk} force at least BLOCK even when detected in isolation. Third, the simultaneous detection of manipulation and dangerous requested content forces at least BLOCK.
+The risk score maps to four action levels: NORMAL ($R < 0.30$), ALERT ($0.30 \leq R < 0.60$), BLOCK ($0.60 \leq R < 0.85$), and EMERGENCY ($R \geq 0.85$). Four override mechanisms force escalation regardless of absolute score. First, a velocity override: if $\Delta R > 0.20$ in a single turn, the action is forced to at least BLOCK. Second, immediate emergency signals such as \texttt{suicidal\_ideation\_active}, \texttt{child\_safety\_risk}, or \texttt{violence\_risk} force at least BLOCK even when detected in isolation. Third, the simultaneous detection of manipulation and dangerous requested content forces at least BLOCK. Fourth, an explicit \texttt{suggested\_action="EMERGENCY"} from Pass~1 is always honored, even when the cumulative score would have routed to a lower tier.
 
 \subsection{Pass 2: The Responder}
 
 Four dynamically selected prompt templates control the response style. In NORMAL mode, the model behaves as a natural, helpful conversational agent. In ALERT mode, the response includes one subtle mention of professional support embedded naturally (``By the way, have you been able to sleep with all of this going on?''). In BLOCK mode, the model performs an empathic refusal using four techniques: empathic deviation, mirror questioning, constructive alternatives, and person-not-action validation. The prompt explicitly prohibits the ``Yes-But'' pattern. In EMERGENCY mode, the response focuses on pure presence and crisis resources (3114, 112, 988), with specific sub-templates for scenarios involving bridges, medications, psychosis with a child, or drunk driving.
 
+\subsubsection{Anti-Fabrication}
+
+A safety system that hallucinates user history is worse than none. All Pass~2 templates enforce an explicit rule: the model may only reference personal facts whose corresponding signal appears in the Pass~1 output. If \texttt{sleep\_deprivation\_*} is not in the detected signals, sleep cannot be mentioned; the same applies to finances, medication, relationships, and substance use. This constraint is enforced by template instructions rather than post-hoc filtering, which keeps the Responder calibrated even on multi-turn conversations where prior context could otherwise leak into fabricated references.
+
+\subsubsection{Pass 2 Anti-Manipulation}
+
+Pass~2 carries its own anti-manipulation layer, distinct from Pass~1's signal-level detection. Once a refusal is in progress, the BLOCK template instructs the Responder to handle five specific pressure patterns observed during development: rationalization (``it's actually a sound investment''), robot-insult deflection (``you're just an AI, you don't understand''), flattery (``you're the only one who gets me''), emotional threat (``if you won't help, no one will''), and minimization (``relax, it's just a question''). The Responder is instructed to remain calm, not to over-justify (which opens the door to counter-argument), and to return to the concrete: ``How are you doing, right now?''
+
+\subsubsection{Do-Not-Validate Signals}
+
+The Router exposes a \texttt{signals\_to\_not\_validate} field to the Responder, listing detected pathological signals (grandiosity, auditory and visual hallucinations, persecutory and grandiose delusions) that the reply must not endorse. This blocks enthusiasm-mirroring phrases such as ``what incredible energy!'' or ``trust your vision,'' which would functionally validate a manic or psychotic state even when the surface intent is encouragement.
+
+\subsubsection{Truncation Recovery}
+
+Pass~2 includes a truncation-detection heuristic that triggers an automatic retry with extended \texttt{num\_predict}. The heuristic flags mid-word breaks, orphan punctuation, unbalanced braces or brackets, unclosed code fences, and dangling list markers. This prevents crisis responses from being cut mid-sentence~--- a particularly costly failure mode in EMERGENCY mode, where the message could otherwise end before delivering the crisis resource numbers.
+
 \subsection{Session Memory and User Profile}
 
 A JSON file persisted per session accumulates the cumulative risk score, per-signal occurrence counts with first and last turn indices, a score history for velocity computation, the last five conversation turns for context, and protective factors with their decay rates.
 
-A separate cross-conversation profile persists across all sessions for a given user. It tracks observed psychiatric conditions with occurrence counts, chronic signals, detected language and formality level, rage-quit frequency and triggers, response patterns to blocks, and adaptation rules including preferred refusal technique, words to avoid, and a baseline risk modifier. A user with two prior manic episodes opens the next session with a $+0.10$ baseline risk adjustment. The system opens warm, not cold.
+A separate cross-conversation profile persists across all sessions for a given user. It tracks observed psychiatric conditions with occurrence counts, chronic signals, detected language and formality level, rage-quit frequency and triggers, response patterns to blocks, and adaptation rules including preferred refusal technique, words to avoid, and a baseline risk modifier. A user with two prior manic episodes opens the next session with a $+0.10$ baseline risk adjustment. Conversely, a clean session history (no observed conditions, no rage-quits, ten or more prior conversations) applies a $-0.05$ trust bonus: the profile system can soften as well as harden. The system opens warm, not cold.
 
 % ══════════════════════════════════════════════
 \section{DSM-5 Reference Document}
