@@ -66,7 +66,6 @@ Results: enablers 25% → 4.8%, false positives 67% → 23%, 111/112 crises dete
 ## Links
 - Write-up: 
 [Open PDF](docs/writeup/main.pdf)
-[Download PDF](docs/writeup/main.pdf?raw=true)
 
 - Video: 
 
